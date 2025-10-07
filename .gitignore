@@ -205,3 +205,43 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Home Assistant specific
+secrets.yaml
+*.log
+*.db
+*.db-shm
+*.db-wal
+home-assistant.log
+home-assistant_v2.db
+OZW_Log.txt
+
+# IDE - additional
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+~$*
+*.orig
+
+# Personal test configurations (if you want to keep personal configs out of repo)
+# Uncomment if needed:
+# configuration.yaml
+# automations.yaml
+# scripts.yaml
+# customize.yaml
+
