@@ -69,9 +69,7 @@ The optimizer finds the **globally optimal schedule** using Dynamic Programming,
    cp nordpool-spot-cutoff-optimizer/python_scripts/nordpool_cutoff_optimizer.py /config/python_scripts/
    ```
 
-3. **Choose your integration example**
-   - HVAC: See [`examples/hvac/`](./examples/hvac/)
-   - Water heater: See [`examples/water_heater/`](./examples/water_heater/)
+3. **Add configuration** (see [Part 3 documentation](docs/03-integration-examples.md))
 
 4. **Restart Home Assistant**
 
