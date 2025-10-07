@@ -222,10 +222,11 @@ The key is identifying your system's "thermal mass" equivalent and calibrating p
 
 ## Next Steps
 
-→ **[Part 2: Cutoff Optimizer Implementation](./02-cutoff-optimizer.md)** - Python code and technical details  
-→ **[Part 3: Integration Examples](./03-integration-examples.md)** - How to integrate with YOUR system
+→ **[Part 2: Cutoff Optimizer Implementation](./02-cutoff-optimizer.md)** ([Community post](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/2)) - Python code and technical details  
+→ **[Part 3: Integration Examples](./03-integration-examples.md)** ([Community post](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/3)) - How to integrate with YOUR system
 
 ---
 
 *Questions? Discuss in the [Home Assistant Community thread](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741)*
+
 
