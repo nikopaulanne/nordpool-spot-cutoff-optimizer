@@ -1,10 +1,3 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
-
-# anna koko 03-integration-examples.md uudestaan ladattavassa muodossa
-
-Tässä koko **03-integration-examples.md** ladattavassa muodossa (oikealla GitHub-linkillä):
-
-```markdown
 # Part 3: Integration Examples - Making It Work for Your Home
 
 *Part 3 of 3: Configuration & Real-World Results*
@@ -729,7 +722,5 @@ If you've successfully integrated this with a different system, please share!
 ---
 
 *Questions? Discuss in the [Home Assistant Community thread](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/3)*
-```
 
-Tiedosto on nyt valmis ja sisältää oikean GitHub-linkin (`nikopaulanne`). Voit kopioida tämän suoraan GitHubiin!
 
