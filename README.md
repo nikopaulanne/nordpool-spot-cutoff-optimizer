@@ -172,7 +172,7 @@ This is a **scheduling optimizer only**. YOU are responsible for:
 
 ## 📞 Support & Discussion
 
-- **Issues:** [GitHub Issues](https://github.com/YOUR-USERNAME/nordpool-spot-cutoff-optimizer/issues)
+- **Issues:** [GitHub Issues](https://github.com/nikopaulanne/nordpool-spot-cutoff-optimizer/issues)
 - **Discussion:** [Home Assistant Community Forum](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741)
 - **Documentation:** See [`docs/`](./docs/) folder
 
