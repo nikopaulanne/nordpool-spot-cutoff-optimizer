@@ -86,7 +86,7 @@ The optimizer needs parameters calibrated for YOUR specific building and system.
 |-----------|---------|------------------|
 | `base_price_diff` | Minimum price difference to trigger cutoff | Start with 3.5 c/kWh, adjust based on results |
 | `max_cutoff_duration` | Maximum cutoff length | Start with 4h, reduce if temperature drops too much |
-| `preheat_multiplier` | Cost of preheating | 1.5 for well-insulated, 1.3 for poor insulation |
+| `preheat_multiplier` | Cost of preheating | 1.5 for poor insulation, 1.3 for well-insulated |
 | `recovery_multiplier` | Cost of recovery | 1.2 typical, 1.1 for good thermal mass |
 | `residual_load` | Load during cutoff | 0.1 for fan-only, 0.05 for complete off |
 
