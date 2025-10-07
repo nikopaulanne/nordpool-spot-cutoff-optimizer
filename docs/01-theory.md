@@ -1,4 +1,3 @@
-```markdown
 # Part 1: Theory - Understanding Load Cutoff Optimization
 
 *Part 1 of 3: The Concept*
@@ -40,23 +39,23 @@ Traditional HVAC energy-saving approaches:
 
 ### Traditional Approach
 
-```
+
 17:00 - Expensive hour detected
 17:00 - Turn off HVAC completely
 18:00 - Turn on HVAC
 18:00 - Building is cold, recovery takes hours
-```
+
 
 **Result**: Discomfort, slower recovery, suboptimal actual savings.
 
 ### My Approach: Intelligent Load Reduction
 
-```
+
 13:00 - PREHEAT: Warm building above target (store thermal energy)
 17:00 - REDUCED HEATING: HVAC fan-only + radiators minimum
 21:00 - RECOVERY: Gentle return to normal operation
 01:00 - System back to baseline
-```
+
 
 **Result**: Minimal temperature drop, even heat distribution, optimal energy use, maximum savings.
 
@@ -122,13 +121,13 @@ A 4-hour cutoff spans **multiple price levels**:
 
 **Solution**: Dynamic scaling
 
-```
+
 required_price_diff = base_requirement × (1h / cutoff_duration)
 
 1h cutoff: 3.5 × (1/1) = 3.5 c/kWh
 2h cutoff: 3.5 × (1/2) = 1.75 c/kWh
 4h cutoff: 3.5 × (1/4) = 0.88 c/kWh
-```
+
 
 **Calibrating the base requirement (3.5 c/kWh):**
 
@@ -229,4 +228,4 @@ The key is identifying your system's "thermal mass" equivalent and calibrating p
 ---
 
 *Questions? Discuss in the [Home Assistant Community thread](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741)*
-```
+
