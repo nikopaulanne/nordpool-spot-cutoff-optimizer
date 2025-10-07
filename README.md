@@ -82,8 +82,8 @@ The optimizer finds the **globally optimal schedule** using Dynamic Programming,
 **3-part series on Home Assistant Community:**
 
 1. **[Part 1: Theory](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741)** - Understanding the concept (using HVAC as example)
-2. **[Part 2: Cutoff Optimizer](LINK-WHEN-PUBLISHED)** - Python implementation details
-3. **[Part 3: Integration Examples](LINK-WHEN-PUBLISHED)** - How to integrate with YOUR system
+2. **[Part 2: Cutoff Optimizer](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/2)** - Python implementation details
+3. **[Part 3: Integration Examples](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/3)** - How to integrate with YOUR system
 
 **Full documentation also available in [`docs/`](./docs/) folder.**
 
