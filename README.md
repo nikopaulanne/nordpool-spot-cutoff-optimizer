@@ -61,7 +61,7 @@ The optimizer finds the **globally optimal schedule** using Dynamic Programming,
 1. **Clone this repository**
    ```bash
    cd /config/
-   git clone https://github.com/YOUR-USERNAME/nordpool-spot-cutoff-optimizer.git
+   git clone https://github.com/nikopaulanne/nordpool-spot-cutoff-optimizer.git
    ```
 
 2. **Copy Python script**
