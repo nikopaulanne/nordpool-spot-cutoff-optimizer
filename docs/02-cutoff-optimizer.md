@@ -3,7 +3,8 @@
 *Part 2 of 3: Technical Deep-Dive*
 
 > **This document covers the core optimization algorithm and Home Assistant integration.**  
-> **→ [Discuss on Home Assistant Community](LINK-WHEN-PUBLISHED)**
+> **→ [Discuss on Home Assistant Community](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/2)**
+
 
 ---
 
@@ -432,4 +433,5 @@ Look for:
 
 ---
 
-*Questions? Discuss in the [Home Assistant Community thread](LINK-WHEN-PUBLISHED)*
+*Questions? Discuss in the [Home Assistant Community thread](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/2)*
+
