@@ -78,10 +78,9 @@ The optimizer finds the **globally optimal schedule** using Dynamic Programming,
 ## 📚 Documentation
 
 **3-part series on Home Assistant Community:**
-
-1. **[Part 1: Theory](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741)** - Understanding the concept (using HVAC as example)
-2. **[Part 2: Cutoff Optimizer](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/2)** - Python implementation details
-3. **[Part 3: Integration Examples](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/3)** - How to integrate with YOUR system
+1. **[Part 1: Theory](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741)** - Understanding the concept (using HVAC as example)
+2. **[Part 2: Cutoff Optimizer](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741/2)** - Python implementation details
+3. **[Part 3: Integration Examples](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741/3)** - How to integrate with YOUR system
 
 **Full documentation also available in [`docs/`](./docs/) folder.**
 
@@ -169,9 +168,8 @@ This is a **scheduling optimizer only**. YOU are responsible for:
 - All contributors sharing integration examples
 
 ## 📞 Support & Discussion
-
 - **Issues:** [GitHub Issues](https://github.com/nikopaulanne/nordpool-spot-cutoff-optimizer/issues)
-- **Discussion:** [Home Assistant Community Forum](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741)
+- **Discussion:** [Home Assistant Community Forum](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741)
 - **Documentation:** See [`docs/`](./docs/) folder
 
 ---
