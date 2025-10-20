@@ -667,8 +667,8 @@ Based on system design theory and building thermodynamics:
 **Your mileage WILL vary!** Start conservative and iterate based on real data.
 
 ### Community Results
-
-*We encourage users to share their results in the [Home Assistant Community forum](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/3).*
+---
+*We encourage users to share their results in the [Home Assistant Community forum](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741/3).*
 
 **Consider sharing:**
 - Building type and insulation level
@@ -704,7 +704,7 @@ If you've successfully integrated this with a different system, please share!
 - Submit Pull Request
 
 **Discuss in Community:**
-- Share your setup in the [forum thread](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/3)
+- Share your setup in the [forum thread](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741/3)
 - Help others with questions
 - Improve the documentation
 
@@ -721,6 +721,6 @@ If you've successfully integrated this with a different system, please share!
 
 ---
 
-*Questions? Discuss in the [Home Assistant Community thread](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/3)*
+*Questions? Discuss in the [Home Assistant Community thread](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741/3)*
 
 
