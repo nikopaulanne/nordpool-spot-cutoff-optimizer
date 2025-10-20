@@ -2,7 +2,7 @@
 
 *Part 1 of 3: The Concept*
 
-> **This document is a mirror of the [Home Assistant Community post](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741).**
+> **This document is a mirror of the [Home Assistant Community post](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741).**
 
 ---
 
@@ -221,9 +221,8 @@ While this example focuses on HVAC, the same principles apply to:
 The key is identifying your system's "thermal mass" equivalent and calibrating parameters accordingly.
 
 ## Next Steps
-
-→ **[Part 2: Cutoff Optimizer Implementation](./02-cutoff-optimizer.md)** ([Community post](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/2)) - Python code and technical details  
-→ **[Part 3: Integration Examples](./03-integration-examples.md)** ([Community post](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-the-theory-part-1-of-3-understanding-the-concept/936741/3)) - How to integrate with YOUR system
+→ **[Part 2: Cutoff Optimizer Implementation](./02-cutoff-optimizer.md)** ([Community post](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741/2)) - Python code and technical details  
+→ **[Part 3: Integration Examples](./03-integration-examples.md)** ([Community post](https://community.home-assistant.io/t/optimizing-hvac-energy-savings-with-nordpool-15-min-pricing-part-1-3-theory-implementation-and-examples/936741/3)) - How to integrate with YOUR system
 
 ---
 
