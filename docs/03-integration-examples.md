@@ -154,72 +154,67 @@ preheat   shutdown   recovery
 ```
 
 template:
+  - sensor:
+      # Current cutoff phase
+      - name: "Cutoff Current Phase"
+        unique_id: cutoff_current_phase
+        state: >
+          {% set periods = state_attr('sensor.nordpool_cutoff_periods_python', 'periods') %}
+          {% if not periods %}
+            normal
+          {% else %}
+            {% set now_ts = now().timestamp() %}
+            {% set ns = namespace(phase='normal') %}
+            {% for period in periods %}
+              {% set preheat_ts = as_timestamp(period.preheat_start) %}
+              {% set shutdown_ts = as_timestamp(period.shutdown_start) %}
+              {% set rec_start = as_timestamp(period.recovery_start) %}
+              {% set recovery_end_ts = as_timestamp(period.recovery_end) %}
 
-- sensor:
+              {% if now_ts >= preheat_ts and now_ts < shutdown_ts %}
+                {% set ns.phase = 'preheat' %}
+              {% elif now_ts >= shutdown_ts and now_ts < rec_start %}
+                {% set ns.phase = 'shutdown' %}
+              {% elif now_ts >= rec_start and now_ts < recovery_end_ts %}
+                {% set ns.phase = 'recovery' %}
+              {% endif %}
+            {% endfor %}
+            {{ ns.phase }}
+          {% endif %}
 
-# Current cutoff phase
-
-    - name: "Cutoff Current Phase"
-unique_id: cutoff_current_phase
-state: >
-{% set periods = state_attr('sensor.nordpool_cutoff_periods_python', 'periods') %}
-{% if not periods %}
-normal
-{% else %}
-{% set now_ts = now().timestamp() %}
-{% set ns = namespace(phase='normal') %}
-{% for period in periods %}
-{% set preheat_ts = as_timestamp(period.preheat_start) %}
-{% set shutdown_ts = as_timestamp(period.shutdown_start) %}
-{% set shutdown_end_ts = as_timestamp(period.shutdown_end) %}
-{% set recovery_end_ts = as_timestamp(period.recovery_end) %}
-
-      {% if now_ts >= preheat_ts and now_ts < shutdown_ts %}
-        {% set ns.phase = 'preheat' %}
-      {% elif now_ts >= shutdown_ts and now_ts < shutdown_end_ts %}
-        {% set ns.phase = 'shutdown' %}
-      {% elif now_ts >= shutdown_end_ts and now_ts < recovery_end_ts %}
-        {% set ns.phase = 'recovery' %}
-      {% endif %}
-    {% endfor %}
-    {{ ns.phase }}
-    {% endif %}
-
-
-# Next cutoff info (for dashboard)
-
-    - name: "Next Cutoff Time"
-unique_id: next_cutoff_time
-state: >
-{% set periods = state_attr('sensor.nordpool_cutoff_periods_python', 'periods') %}
-{% if periods %}
-{% set now_ts = now().timestamp() %}
-{% set future = periods | selectattr('shutdown_start', '>', now().isoformat()) | list %}
-{% if future %}
-{{ as_timestamp(future.shutdown_start) | timestamp_custom('%H:%M') }}
-{% else %}
-No cutoff scheduled
-{% endif %}
-{% else %}
-No data
-{% endif %}
-attributes:
-duration: >
-{% set periods = state_attr('sensor.nordpool_cutoff_periods_python', 'periods') %}
-{% if periods %}
-{% set future = periods | selectattr('shutdown_start', '>', now().isoformat()) | list %}
-{% if future %}
-{{ future.cutoff_duration_hours }} hours
-{% endif %}
-{% endif %}
-estimated_savings: >
-{% set periods = state_attr('sensor.nordpool_cutoff_periods_python', 'periods') %}
-{% if periods %}
-{% set future = periods | selectattr('shutdown_start', '>', now().isoformat()) | list %}
-{% if future %}
-{{ future.savings_pct }}%
-{% endif %}
-{% endif %}
+      # Next cutoff info (for dashboard)
+      - name: "Next Cutoff Time"
+        unique_id: next_cutoff_time
+        state: >
+          {% set periods = state_attr('sensor.nordpool_cutoff_periods_python', 'periods') %}
+          {% if periods %}
+            {% set now_ts = now().timestamp() %}
+            {% set future = periods | selectattr('shutdown_start', '>', now().isoformat()) | list %}
+            {% if future %}
+              {{ as_timestamp(future[0].shutdown_start) | timestamp_custom('%H:%M') }}
+            {% else %}
+              No cutoff scheduled
+            {% endif %}
+          {% else %}
+            No data
+          {% endif %}
+        attributes:
+          duration: >
+            {% set periods = state_attr('sensor.nordpool_cutoff_periods_python', 'periods') %}
+            {% if periods %}
+              {% set future = periods | selectattr('shutdown_start', '>', now().isoformat()) | list %}
+              {% if future %}
+                {{ future[0].shutdown_duration_hours }} hours
+              {% endif %}
+            {% endif %}
+          estimated_savings: >
+            {% set periods = state_attr('sensor.nordpool_cutoff_periods_python', 'periods') %}
+            {% if periods %}
+              {% set future = periods | selectattr('shutdown_start', '>', now().isoformat()) | list %}
+              {% if future %}
+                {{ future[0].cost_saving_percent }}%
+              {% endif %}
+            {% endif %}
 
 ```
 
@@ -473,13 +468,14 @@ normal
 {% for period in periods %}
 {% set preheat_ts = as_timestamp(period.preheat_start) %}
 {% set shutdown_ts = as_timestamp(period.shutdown_start) %}
-{% set shutdown_end_ts = as_timestamp(period.shutdown_end) %}
+    {% set rec_start = as_timestamp(period.recovery_start) %}
 
-      {% if now_ts >= preheat_ts and now_ts < shutdown_ts %}
-        {% set ns.phase = 'preheat' %}
-      {% elif now_ts >= shutdown_ts and now_ts < shutdown_end_ts %}
-        {% set ns.phase = 'shutdown' %}
-      {% endif %}
+     {% if now_ts >= preheat_ts and now_ts < shutdown_ts %}
+       {% set ns.phase = 'preheat' %}
+     {% elif now_ts >= shutdown_ts and now_ts < rec_start %}
+       {% set ns.phase = 'shutdown' %}
+     {% endif %}
+
     {% endfor %}
     {{ ns.phase }}
     {% endif %}
@@ -604,6 +600,48 @@ color: red
 | Temperature drops >1°C | Cutoff too long | Reduce `max_cutoff_duration` to 3h |
 | Recovery takes too long | Poor thermal mass | Increase `recovery_multiplier` to 1.3 |
 | Script errors | Missing sensor | Check Nordpool sensor exists |
+
+### v2.0-Specific Issues
+
+**Issue: Template sensor shows "unknown" or "unavailable"**
+
+**Cause:** Template references `period.shutdown_end` which doesn't exist in v2.0
+
+**Fix:** Update all templates to use `period.recovery_start` instead:
+```
+{% set rec_start = as_timestamp(period.recovery_start) %}
+{% elif now_ts >= shutdown_ts and now_ts < rec_start %}
+  {% set ns.phase = 'shutdown' %}
+```
+
+**Issue: Current phase stuck in one state**
+
+**Check:**
+1. Verify optimizer sensor has periods: Developer Tools → States → `sensor.nordpool_cutoff_periods_python`
+2. Check timestamps are valid ISO format (YYYY-MM-DDTHH:MM:SS)
+3. Verify template uses `recovery_start` (not `shutdown_end`)
+4. Check `data_resolution` attribute shows correct normalization
+
+**Issue: Nordpool sensor not found**
+
+**Fix:** Specify sensor explicitly in automation:
+```
+action:
+  - service: python_script.nordpool_cutoff_optimizer
+    data:
+      np_entity: sensor.your_nordpool_sensor_name
+```
+
+Check sensor name in Developer Tools → States and verify it has `raw_today` and `raw_tomorrow` attributes.
+
+**Issue: Mixed resolution data causing errors**
+
+**Check:** `today_slot_minutes` and `tomorrow_slot_minutes` attributes in optimizer sensor.
+
+**Normal:** Both should be 15 (or 60 if using hourly data)
+
+**If different:** v2.0 handles this automatically with normalization. Check `data_resolution` attribute shows "mixed→15min".
+
 
 ### Debug Mode
 
