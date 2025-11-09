@@ -123,32 +123,61 @@ The script creates a sensor with **a list of cutoff periods**:
 
 ```yaml
 sensor.nordpool_cutoff_periods_python:
-  state: "2"  # Number of cutoffs today/tomorrow
+  state: "2"
   attributes:
     periods:
-      - preheat_start: "2025-10-07T13:00:00+03:00"
-        shutdown_start: "2025-10-07T17:00:00+03:00"
-        shutdown_end: "2025-10-07T21:00:00+03:00"
-        recovery_start: "2025-10-07T21:00:00+03:00"
-        recovery_end: "2025-10-08T01:00:00+03:00"
-        savings_pct: 35.9
-        baseline_cost: 33.82
-        optimized_cost: 21.67
-        cutoff_duration_hours: 4.0
+      - preheat_start: "2025-10-07T13:00:00"
+        shutdown_start: "2025-10-07T17:00:00"
+        recovery_start: "2025-10-07T21:00:00"
+        recovery_end: "2025-10-08T01:00:00"
+        cost_saving: 12.15
+        cost_saving_percent: 35.9
+        shutdown_duration_hours: 4.0
+        shutdown_duration_text: "4h"
+        details:
+          total_cost_with_shutdown: 21.67
+          total_cost_without_shutdown: 33.82
+          price_difference: 3.1
+          adjusted_min_price_diff: 0.88
 
-      - preheat_start: "2025-10-08T06:00:00+03:00"
-        shutdown_start: "2025-10-08T08:00:00+03:00"
-        shutdown_end: "2025-10-08T10:00:00+03:00"
-        recovery_start: "2025-10-08T10:00:00+03:00"
-        recovery_end: "2025-10-08T12:00:00+03:00"
-        savings_pct: 18.2
-        baseline_cost: 28.45
-        optimized_cost: 23.27
-        cutoff_duration_hours: 2.0
+      - preheat_start: "2025-10-08T06:00:00"
+        shutdown_start: "2025-10-08T08:00:00"
+        recovery_start: "2025-10-08T10:00:00"
+        recovery_end: "2025-10-08T12:00:00"
+        cost_saving: 5.18
+        cost_saving_percent: 18.2
+        shutdown_duration_hours: 2.0
+        shutdown_duration_text: "2h"
+        details:
+          total_cost_with_shutdown: 23.27
+          total_cost_without_shutdown: 28.45
+          price_difference: 2.8
+          adjusted_min_price_diff: 1.75
 
-    data_resolution: "15min"
-    optimization_method: "dynamic_programming"
+    data_resolution: "15min (normalized)"
+    today_slot_minutes: 15
+    tomorrow_slot_minutes: 15
+    optimization_method: "DP (full window), robust slots"
+    unit_of_measurement: "periods"
+    candidates_scanned: 1234
+    results_found: 12
+    total_cost_saving: 17.33
+    min_slots: 2
+    max_slots: 16
+
 ```
+
+**Attribute reference per period:**
+
+| Attribute | Description |
+|-----------|-------------|
+| preheat_start | Start of preheat window |
+| shutdown_start | Start of cutoff (expensive period) |
+| recovery_start | **End of cutoff**, beginning of recovery |
+| recovery_end | End of recovery window |
+
+**Important:** There is NO `shutdown_end` attribute. Use `recovery_start` as the moment when shutdown phase ends.
+
 
 **Key feature:** The `periods` list can contain **multiple cutoffs** (e.g., morning + evening peaks).
 
@@ -175,14 +204,14 @@ template:
             {% for period in periods %}
               {% set preheat_ts = as_timestamp(period.preheat_start) %}
               {% set shutdown_ts = as_timestamp(period.shutdown_start) %}
-              {% set shutdown_end_ts = as_timestamp(period.shutdown_end) %}
-              {% set recovery_end_ts = as_timestamp(period.recovery_end) %}
+              {% set rec_start = as_timestamp(period.recovery_start) %}
+              {% set rec_end = as_timestamp(period.recovery_end) %}
 
               {% if now_ts >= preheat_ts and now_ts < shutdown_ts %}
                 {% set ns.phase = 'preheat' %}
-              {% elif now_ts >= shutdown_ts and now_ts < shutdown_end_ts %}
+              {% elif now_ts >= shutdown_ts and now_ts < rec_start %}
                 {% set ns.phase = 'shutdown' %}
-              {% elif now_ts >= shutdown_end_ts and now_ts < recovery_end_ts %}
+              {% elif now_ts >= rec_start and now_ts < rec_end %}
                 {% set ns.phase = 'recovery' %}
               {% endif %}
             {% endfor %}
@@ -195,6 +224,61 @@ template:
 - `preheat` - Currently preheating
 - `shutdown` - Currently in cutoff phase
 - `recovery` - Currently recovering
+
+
+## Nordpool Sensor Configuration (v2.0)
+
+The v2.0 optimizer supports **configurable Nordpool sensor selection** with automatic fallbacks
+
+### How the sensor is resolved
+
+The script checks these sources **in order**:
+
+1. **Service data** (highest priority)
+   ```yaml
+   service: python_script.nordpool_cutoff_optimizer
+   data:
+     np_entity: "sensor.nordpool_kwh_fi_eur_3_10_0"
+   ```
+
+2. **input_text helper** (medium priority)
+   ```yaml
+   input_text:
+     nordpool_entity_override:
+       name: "Nordpool Entity Override"
+       initial: "sensor.nordpool_kwh_fi_eur_3_10_0"
+   ```
+
+3. **Hardcoded fallback** (lowest priority)
+   ```python
+   # Inside the script
+   nordpool = hass.states.get('sensor.nordpool_fi')
+   ```
+   
+**Why this matters:** Different Nordpool integrations use different entity names. This lets you configure it without editing the Python script.
+
+
+### Telemetry attributes
+
+The sensor exposes which entity was used:
+
+```yaml
+sensor.nordpool_cutoff_periods_python:
+  attributes:
+    nordpool_entity_used: "sensor.nordpool_kwh_fi_eur_3_10_0"
+    data_resolution: "15min (normalized)"
+    today_slot_minutes: 15
+    tomorrow_slot_minutes: 60  # Mixed resolution!
+```    
+**Use these attributes to verify** the correct sensor is being used and data is coming through properly.
+
+### Mixed resolution support
+
+v2.0 handles **mixed 15-min + 60-min data**:
+- Today might be 15-min slots (96 data points)
+- Tomorrow might be 60-min slots (24 data points)
+- Script normalizes both to 15-min for optimization
+- Check `data_resolution` attribute: `"mixed→15min"` indicates mixed sources
 
 ---
 
@@ -334,7 +418,8 @@ automation:
 
     action:
       - service: python_script.nordpool_cutoff_optimizer
-        data: {}
+        data:
+          np_entity: sensor.nordpool_kwh_fi_eur_3_10_0  # Optional: specify Nordpool sensor
 ```
 
 **The script will now run automatically!**
@@ -389,9 +474,13 @@ logger:
 **Developer Tools** → **States** → `sensor.nordpool_cutoff_periods_python`
 
 Look for:
-- All timestamps present in `periods`
-- Reasonable `savings_pct` values
+- All timestamps present in `periods` (preheat_start, shutdown_start, recovery_start, recovery_end)
+- Reasonable `cost_saving_percent` values
 - Cutoffs during expensive hours
+- `data_resolution` showing correct normalization (15min or mixed→15min)
+- `nordpool_entity_used` confirming correct sensor source
+
+**v2.0 tip:** Check `today_slot_minutes` and `tomorrow_slot_minutes` to verify data resolution. If tomorrow is `null`, tomorrow's prices haven't arrived yet.
 
 ### Common Issues
 
