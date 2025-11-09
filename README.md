@@ -4,6 +4,8 @@
 
 Intelligently reduce electricity consumption during price peaks while maintaining comfort and functionality. Save 10-20% on peak electricity costs.
 
+> Status: v2.0 rollout in progress on branch `release/v2.0.0`. See docs updates and DP-based optimizer details in upcoming commits.
+
 ## 🎯 What Is This?
 
 A **Python-based optimization engine** for Home Assistant that:
